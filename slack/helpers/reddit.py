@@ -10,13 +10,13 @@ class Post(object):
                 "fallback": "Reddit post.",
                 "title": self.data['title'],
                 "title_link": self.data['url'],
-                "mrkdwn": "true",
+                "mrkdwn": True,
             }
 
         if self.data['selftext']:
             slack_attachment['text'] = self.data['selftext']
         else:
-            slack_attachment['text'] = str(self.data['num_comments']) + " comments: https://reddit.com" + self.data['permalink']
+            slack_attachment['text'] = "<https://reddit.com" + self.data['permalink'] + "|View " + str(self.data['num_comments']) + " comments" + ">"
 
         if self.data['media'] is not None:
             slack_attachment['thumb_url'] = self.data['media']['oembed']['thumbnail_url']

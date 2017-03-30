@@ -31,12 +31,13 @@ def get_subreddit_posts(command_arguments):
     location = command_arguments[0] if len(command_arguments) > 0 else "random"
     link = "http://www.reddit.com/r/" + location + "/.json"
 
+    #fetch the reddit data
+    reddit_data = requests.get(link, headers = {'User-agent': 'Slack-for-reddit'})
+    reddit_data = reddit_data.json()['data']['children']
+
     # Get any extra parameters passed along in the command
     extra_parameters = command_arguments[1:] if len(command_arguments) > 1 else None
     num_posts = int(extra_parameters[0]) if extra_parameters is not None else 1
-
-    reddit_data = requests.get(link, headers = {'User-agent': 'Slack-for-reddit'})
-    reddit_data = reddit_data.json()['data']['children']
 
     # Removes any stickied posts that may have been fetched
     posts = []
