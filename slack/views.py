@@ -11,27 +11,35 @@ def slack_router(request):
     # if token != settings.SLACK_VERIFICATION_TOKEN:
     #     return HttpResponseBadRequest("Unauthorized Request.")
     #
-    command = request.POST.get('command', None)
     command_arguments = request.POST.get('text', None)
-    command_arguments = command_arguments.split(" ")
-    payload = ""
-
-    # extra_parameters = command_arguments[1:] if len(command_arguments) > 1 else None
-
-    # if command_arguments[0] == "random":
-    #     payload = reddit_random(extra_parameters)
+    command_arguments = command_arguments.split()
     payload = get_subreddit_posts(command_arguments)
 
     return JsonResponse(payload)
 
-# def reddit_random(location="",extra_parameters=None):
-
 def get_subreddit_posts(command_arguments):
-    # Get the location of the subreddit
-    location = command_arguments[0] if len(command_arguments) > 0 else "random"
-    link = "http://www.reddit.com/r/" + location + "/.json"
 
-    #fetch the reddit data
+    no_arguments = len(command_arguments)
+
+    # Get the location of the subreddit
+    location = command_arguments[0] if no_arguments > 0 else "random"
+
+    # Get the specific listing of the subreddit
+    # Examples: controversial, hot, new, random, rising, top, sort
+    # Additional sorting and filtering commands available only on listings
+    # They are: before / after, count, limit, show
+    # news
+    # news 10 or 10 news
+    # news 10 top or news/top 10
+    # More info can be viewed here: https://www.reddit.com/dev/api/#listings
+
+    #listing = "/" + command_arguments[1] if no_arguments > 1 else  ""
+    #filters = "?" + command_arguments[2] if no_arguments > 2 else ""
+
+
+    link = "http://www.reddit.com/r/" + location + ".json"
+
+    # Fetch the reddit data
     reddit_data = requests.get(link, headers = {'User-agent': 'Slack-for-reddit'})
     reddit_data = reddit_data.json()['data']['children']
 
