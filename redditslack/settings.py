@@ -14,12 +14,23 @@ import os
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.urls import reverse_lazy
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-# Slack credentials
-SLACK_CLIENT_ID = os.environ['SLACK_CLIENT_ID']
-SLACK_CLIENT_SECRET = os.environ['SLACK_CLIENT_SECRET']
+# Slack OAuth
+# ------------------------------------------------------------------------
+#
+SLACK_CLIENT_ID = os.environ.get('SLACK_CLIENT_ID')
+SLACK_CLIENT_SECRET = os.environ.get('SLACK_CLIENT_SECRET')
+SLACK_SCOPE = 'identify,users:read,commands'
+SLACK_PIPELINES = [
+    'accounts.pipelines.create_team'
+]
+SLACK_SUCCESS_REDIRECT_URL = reverse_lazy('home:success')
+SLACK_VERIFICATION_TOKEN = os.environ['SLACK_VERIFICATION_TOKEN']
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -30,7 +41,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
+    'django_slack_oauth',
 ]
 
 MIDDLEWARE = [
@@ -79,10 +92,7 @@ WSGI_APPLICATION = 'redditslack.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(conn_max_age=600)
 }
 
 

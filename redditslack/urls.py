@@ -19,7 +19,8 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('home.urls', namespace='home')),
-    url(r'^slack-command', include('slack.urls', namespace='slack'))
+    url(r'^slack-command', include('slack.urls', namespace='slack')),
+    url(r'^slack/', include('django_slack_oauth.urls')),
 
 ]
 
