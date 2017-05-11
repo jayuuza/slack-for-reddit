@@ -2,6 +2,7 @@ dj-database-url==0.4.1
 Django==1.10.4
 django-allauth==0.29.0
 django-environ==0.4.1
+django-slack-oauth==1.0.0
 argparse==1.2.1
 gunicorn==19.6.0
 whitenoise==2.0.6
