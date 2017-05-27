@@ -47,15 +47,13 @@ def get_subreddit_posts(command_arguments):
     # Examples: controversial, hot, new, random, rising, top, sort
     # Additional sorting and filtering commands available only on listings
     # They are: before / after, count, limit, show
-    # news
-    # news 10 or 10 news
-    # news 10 top or news/top 10
     # More info can be viewed here: https://www.reddit.com/dev/api/#listings
-
-    # listing = "/" + command_arguments[1] if no_arguments > 1 else  ""
-    # filters = "?" + command_arguments[2] if no_arguments > 2 else ""
-
-
+    # if location == "random":
+    #
+    #     link = "http://www.reddit.com/r/" + location + "?limit=1&.json"
+    #     reddit_data = requests.get(link, headers={'User-agent': 'Slack-for-reddit'})
+    #     after = reddit_data[0]['after']
+    #     subreddit = "http://www.reddit.com/r/" + reddit_data[0]['data']['subreddit']
     link = "http://www.reddit.com/r/" + location + ".json"
 
     # Fetch the reddit data
@@ -76,9 +74,3 @@ def get_subreddit_posts(command_arguments):
     message = MessageBuilder(posts[:num_posts])
 
     return subreddit, message.message
-
-    # titles = []
-    # for post in reddit_data:
-    #     titles.append(post['data']['title'])
-    #
-    # return ", ".join(titles)
