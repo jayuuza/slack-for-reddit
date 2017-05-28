@@ -31,7 +31,6 @@ SLACK_PIPELINES = [
 SLACK_SUCCESS_REDIRECT_URL = reverse_lazy('home:success')
 SLACK_VERIFICATION_TOKEN = os.environ['SLACK_VERIFICATION_TOKEN']
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -47,9 +46,9 @@ else:
 
 ALLOWED_HOSTS = ['*']
 
+SECURE_SSL_REDIRECT = not DEBUG
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
