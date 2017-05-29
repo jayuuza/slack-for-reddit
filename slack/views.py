@@ -49,7 +49,7 @@ def get_subreddit_posts(command, command_arguments):
 
     # Get any extra parameters passed along in the command
     # extra_parameters = command_arguments[1:] if len(command_arguments) > 0 else None
-    num_posts = int(command_arguments[0]) if command_arguments[0] is not None else 1
+    num_posts = int(command_arguments[0]) if no_arguments > 0 else 10
 
     # Get the specific listing of the subreddit
     # Examples: controversial, hot, new, random, rising, top, sort
