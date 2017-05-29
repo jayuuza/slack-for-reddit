@@ -49,7 +49,7 @@ def get_subreddit_posts(command, command_arguments):
 
     # Get any extra parameters passed along in the command
     # extra_parameters = command_arguments[1:] if len(command_arguments) > 0 else None
-    num_posts = int(command_arguments[0]) if no_arguments > 0 else 10
+    num_posts = int(command_arguments[0]) if no_arguments > 0 else 1
 
     # Get the specific listing of the subreddit
     # Examples: controversial, hot, new, random, rising, top, sort
@@ -63,13 +63,17 @@ def get_subreddit_posts(command, command_arguments):
     reddit_data = reddit_data.json()['data']['children']
     subreddit = "http://www.reddit.com/r/" + reddit_data[0]['data']['subreddit']
 
-
+    if num_posts > 1:
+        message_text = str(num_posts) + " posts from " + subreddit
+    else:
+        message_text = "Post from " + subreddit
+        
     # Removes any stickied posts that may have been fetched
     posts = []
     for child in reddit_data:
         if not bool(child['data']['stickied']):
             posts.append(Post(child))
 
-    message = MessageBuilder(posts[:num_posts])
+    message = MessageBuilder(message_text, posts[:num_posts])
 
     return subreddit, message.message

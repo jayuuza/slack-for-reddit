@@ -31,7 +31,8 @@ class Post(object):
 
 
 class MessageBuilder(object):
-    def __init__(self, posts):
+    def __init__(self, message_text, posts):
         self.message = {
+            "text":message_text,
             "attachments": [post.make_attachment() for post in posts],
         }
