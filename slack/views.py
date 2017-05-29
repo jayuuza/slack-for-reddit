@@ -45,7 +45,11 @@ def get_subreddit_posts(command, command_arguments):
     if command == "/slackrd-random":
         location = "r/random"
     else:
-        location = "r/" + command_arguments[0] if no_arguments > 0 else ""
+        location = "r/" + command_arguments[1] if no_arguments > 1 else ""
+
+    # Get any extra parameters passed along in the command
+    # extra_parameters = command_arguments[1:] if len(command_arguments) > 0 else None
+    num_posts = int(command_arguments[0]) if command_arguments[0] is not None else 1
 
     # Get the specific listing of the subreddit
     # Examples: controversial, hot, new, random, rising, top, sort
@@ -59,9 +63,6 @@ def get_subreddit_posts(command, command_arguments):
     reddit_data = reddit_data.json()['data']['children']
     subreddit = "http://www.reddit.com/r/" + reddit_data[0]['data']['subreddit']
 
-    # Get any extra parameters passed along in the command
-    extra_parameters = command_arguments[1:] if len(command_arguments) > 1 else None
-    num_posts = int(extra_parameters[0]) if extra_parameters is not None else 1
 
     # Removes any stickied posts that may have been fetched
     posts = []
