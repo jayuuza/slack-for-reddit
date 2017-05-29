@@ -2,8 +2,9 @@ from accounts.models import Team
 
 
 def create_team(request, api_data):
-    team = Team.objects.get(team_id=api_data['team_id'])
-    if not team:
+    try:
+        team = Team.objects.get(team_id=api_data['team_id'])
+    except Team.DoesNotExist:
         team = Team(
             access_token=api_data['access_token'],
             team_name=api_data['team_name'],
