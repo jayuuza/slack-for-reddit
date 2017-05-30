@@ -44,12 +44,19 @@ def get_subreddit_posts(command, command_arguments):
     # Get the location of the subreddit
     if command == "/slackrd-random":
         location = "r/random"
+        num_posts = 1
     else:
-        location = "r/" + command_arguments[1] if no_arguments > 1 else ""
-
-    # Get any extra parameters passed along in the command
-    # extra_parameters = command_arguments[1:] if len(command_arguments) > 0 else None
-    num_posts = int(command_arguments[0]) if no_arguments > 0 else 1
+        if no_arguments == 1:
+            if command_arguments[0].isdigit():
+                num_posts = int(command_arguments[0])
+            else:
+                location = "r/" + command_arguments[0]
+        elif no_arguments > 1:
+            location = "r/" + command_arguments[1]
+            num_posts = int(command_arguments[0]) if command_arguments[0].isdigit() else 1
+        else:
+            location = ""
+            num_posts = 1
 
     if num_posts > 10:
         num_posts = 10
