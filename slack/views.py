@@ -50,8 +50,8 @@ def get_subreddit_posts(command, command_arguments):
             location = "r/" + command_arguments[0] if not command_arguments[0].isdigit() else ""
             num_posts = int(command_arguments[0]) if command_arguments[0].isdigit() else 1
         elif no_arguments > 1:
-            location = "r/" + command_arguments[1] if not command_arguments[1].isdigit() else ""
-            num_posts = int(command_arguments[0]) if command_arguments[0].isdigit() else 1
+            location = "r/" + command_arguments[1] if not command_arguments[1].isdigit() else "r/" + command_arguments[0] if not command_arguments[0].isdigit() else ""
+            num_posts = int(command_arguments[0]) if command_arguments[0].isdigit() else int(command_arguments[1]) if command_arguments[1].isdigit() else 1
         else:
             location = ""
             num_posts = 1
