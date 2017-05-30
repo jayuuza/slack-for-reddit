@@ -4,6 +4,7 @@ from django.http import HttpResponseBadRequest
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from accounts.models import UsageLog, Team
+import html
 
 from slack.helpers.reddit import Post, MessageBuilder
 
@@ -15,7 +16,7 @@ def slack_router(request):
         return HttpResponseBadRequest("Unauthorized Request.")
 
     command = request.POST.get('command')
-    command_arguments = request.POST.get('text', None)
+    command_arguments = html.escape(request.POST.get('text', None))
     command_arguments = command_arguments.split()
     subreddit, payload = get_subreddit_posts(command, command_arguments)
 
