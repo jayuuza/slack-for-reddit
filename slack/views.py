@@ -41,18 +41,16 @@ def log_usage(request, subreddit):
 def get_subreddit_posts(command, command_arguments):
     no_arguments = len(command_arguments)
 
+    location = "r/random"
+    num_posts = 1
+
     # Get the location of the subreddit
-    if command == "/slackrd-random":
-        location = "r/random"
-        num_posts = 1
-    else:
+    if command == "/slackrd":
         if no_arguments == 1:
-            if command_arguments[0].isdigit():
-                num_posts = int(command_arguments[0])
-            else:
-                location = "r/" + command_arguments[0]
+            location = "r/" + command_arguments[0] if not command_arguments[0].isdigit() else ""
+            num_posts = int(command_arguments[0]) if command_arguments[0].isdigit() else 1
         elif no_arguments > 1:
-            location = "r/" + command_arguments[1]
+            location = "r/" + command_arguments[1] if not command_arguments[1].isdigit() else ""
             num_posts = int(command_arguments[0]) if command_arguments[0].isdigit() else 1
         else:
             location = ""
