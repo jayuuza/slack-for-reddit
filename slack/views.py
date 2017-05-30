@@ -51,6 +51,9 @@ def get_subreddit_posts(command, command_arguments):
     # extra_parameters = command_arguments[1:] if len(command_arguments) > 0 else None
     num_posts = int(command_arguments[0]) if no_arguments > 0 else 1
 
+    if num_posts > 10:
+        num_posts = 10
+
     # Get the specific listing of the subreddit
     # Examples: controversial, hot, new, random, rising, top, sort
     # Additional sorting and filtering commands available only on listings
@@ -67,7 +70,7 @@ def get_subreddit_posts(command, command_arguments):
         message_text = str(num_posts) + " posts from " + subreddit
     else:
         message_text = "Post from " + subreddit
-        
+
     # Removes any stickied posts that may have been fetched
     posts = []
     for child in reddit_data:
